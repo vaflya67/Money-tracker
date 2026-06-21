@@ -789,6 +789,32 @@ body.new-cat-mode #settingsView {
   color: rgba(240, 240, 248, 0.35);
 }
 
+.case-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  margin-bottom: 0.65rem;
+}
+
+.case-btn {
+  padding: 0.55rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.case-btn--active {
+  border-color: var(--purple);
+  color: var(--text);
+  background: rgba(168, 85, 247, 0.15);
+}
+
 .letter-pad {
   display: grid;
   grid-template-columns: repeat(8, 1fr);

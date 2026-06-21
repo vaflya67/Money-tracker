@@ -51,6 +51,7 @@ let settingsTab = "expense";
 let newCatType = "expense";
 let newCatEmoji = "📦";
 let newCatName = "";
+let letterCase = "upper";
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -506,6 +507,8 @@ function openNewCategory() {
   newCatType = settingsTab;
   newCatEmoji = "📦";
   newCatName = "";
+  letterCase = "upper";
+  updateCaseToggle();
   els.newCatTitle.textContent =
     settingsTab === "expense" ? "Новая категория расходов" : "Новая категория доходов";
   renderEmojiGrid();
@@ -536,8 +539,11 @@ function renderEmojiGrid() {
 }
 
 function renderLetterPad() {
+  const letters =
+    letterCase === "upper" ? RU_LETTERS : RU_LETTERS.map((l) => l.toLowerCase());
+
   const keys = [
-    ...RU_LETTERS.map((l) => ({ key: l, label: l })),
+    ...letters.map((l) => ({ key: l, label: l })),
     { key: "space", label: "пробел", wide: true },
     { key: "back", label: "⌫", back: true },
   ];
@@ -554,6 +560,18 @@ function renderLetterPad() {
   els.letterPad.querySelectorAll(".letter-key").forEach((btn) => {
     btn.addEventListener("click", () => pressLetterKey(btn.dataset.key));
   });
+}
+
+function updateCaseToggle() {
+  document.querySelectorAll(".case-btn").forEach((btn) => {
+    btn.classList.toggle("case-btn--active", btn.dataset.case === letterCase);
+  });
+}
+
+function setLetterCase(mode) {
+  letterCase = mode;
+  updateCaseToggle();
+  renderLetterPad();
 }
 
 function pressLetterKey(key) {
@@ -619,6 +637,11 @@ $("#btnCloseSettings").addEventListener("click", closeSettings);
 $("#btnAddCategory").addEventListener("click", openNewCategory);
 $("#btnCloseNewCat").addEventListener("click", closeNewCategory);
 $("#btnSaveCategory").addEventListener("click", saveNewCategory);
+
+document.getElementById("caseToggle").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-case]");
+  if (btn) setLetterCase(btn.dataset.case);
+});
 
 $("#tabExpense").addEventListener("click", () => {
   settingsTab = "expense";
